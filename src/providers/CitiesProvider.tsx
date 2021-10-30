@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
-import React, {useContext, createContext, useEffect} from 'react';
-import { StorageKey } from '../enums/storage';
+import React, {useContext, createContext, useEffect, useState} from 'react';
+import {StorageKey} from '../enums/storage';
 import {CityWeather} from '../types/ICity';
 import {getCities} from '../utils/city';
-import { getItem, setItem } from '../utils/storage';
+import {getItem, setItem} from '../utils/storage';
 
 interface CitiesProviderProps {
   cities: CityWeather[];
@@ -19,11 +19,9 @@ export const CitiesContext = createContext<CitiesProviderProps>(
 );
 
 export const CitiesProvider: React.FC = ({children}) => {
-  const [lastUpdate, setLastUpdate] = React.useState<string>('');
-  const [cities, setCities] = React.useState<CityWeather[]>([]);
-  const [selectedCity, setSelectedCity] = React.useState<CityWeather>(
-    {} as CityWeather,
-  );
+  const [lastUpdate, setLastUpdate] = useState<string>('');
+  const [cities, setCities] = useState<CityWeather[]>([]);
+  const [selectedCity, setSelectedCity] = useState<CityWeather>({} as CityWeather);
 
   useEffect(() => {
     async function getStoragedCities(): Promise<void> {
@@ -41,7 +39,7 @@ export const CitiesProvider: React.FC = ({children}) => {
     await setItem(StorageKey.lastUpdate, time);
   };
 
-  const updateSelectedCity = (city: CityWeather):void => {
+  const updateSelectedCity = (city: CityWeather): void => {
     setSelectedCity(city);
   };
 

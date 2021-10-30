@@ -59,7 +59,7 @@ export const ModalScreen: React.FC<Props> = ({ data, visible }) => {
         <View style={styles.container}>
           <View style={styles.card}>
             <LottieView
-              source={animations[type]}
+              source={animations[type] || animations.success}
               autoPlay
               loop
               style={styles.animatiom}
