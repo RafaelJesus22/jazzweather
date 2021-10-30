@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useContext, useState} from 'react';
 import {
   View,
@@ -10,24 +11,25 @@ import {TextInputMask} from 'react-native-masked-text';
 import {ScreenWrapper} from '../../components/ScreenWrapper';
 import {FormContainer} from '../../components/FormContainer';
 import {PrimaryButton} from '../../components/PrimaryButton';
-import {InfoModal} from '../../components/InfoModal';
+import {ModalProps, ModalScreen} from '../../components/ModalScreen';
 import {colors, fontSize, spacing} from '../../config/styles';
 import {addCity, getCities, getTemperatureByCep} from '../../utils/city';
 import {CitiesContext} from '../../providers/CitiesProvider';
 
 export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
-  const [cep, setCep] = useState('');
+  const {updateCities, updateLastUpdate} = useContext(CitiesContext);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modaldata, setModaldata] = useState<ModalProps>({} as ModalProps);
   const [loading, setLoading] = useState(false);
-  const [modalSuccess, setModalSuccess] = useState(false);
-  const [modalError, setModalError] = useState(false);
-  const {setCities, updateLastUpdate} = useContext(CitiesContext);
+  const [cep, setCep] = useState('');
 
   const handleSubmit = async (): Promise<void> => {
     setLoading(true);
     const cityWeather = await getTemperatureByCep(cep);
 
     if (!cityWeather.cidade) {
-      setModalError(true);
+      setModaldata(ERROR_MODAL_DATA);
+      setModalVisible(true);
       return setLoading(false);
     }
 
@@ -37,10 +39,11 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
     }
 
     if (success) {
-      setModalSuccess(true);
+      setModaldata(SUCCESS_MODAL_DATA);
+      setModalVisible(true);
       updateLastUpdate(cityWeather?.lastUpdate || '');
       const cities = await getCities();
-      setCities(cities);
+      updateCities(cities);
 
       setLoading(false);
       setCep('');
@@ -54,10 +57,35 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
     }
   };
 
+  const SUCCESS_MODAL_DATA: ModalProps = {
+    title: 'Deu tudo certo',
+    message: 'Ao voltar para tela inicial as novas informações já estarão disponíveis pra você😁',
+    type: 'success',
+    confirmButton: {
+      color: colors.success,
+      onPress: (): void => {
+        setModalVisible(false);
+        navigation.goBack();
+      },
+    },
+  };
+
+  const ERROR_MODAL_DATA: ModalProps = {
+    title: 'Ops!',
+    message: `Ocorreu um erro ao procurar pelo CEP: ${cep}. Verifique se digitou certo e tente novamente!`,
+    type: 'error',
+    confirmButton: {
+      color: colors.delete,
+      onPress: (): void => {
+        setModalVisible(false);
+      },
+    },
+  };
+
   return (
     <ScreenWrapper>
       <FormContainer>
-        <View style={{flex: 1}}>
+        <View style={styles.content}>
           <View style={styles.form}>
             <Text style={styles.label}>Digite o Cep da cidade</Text>
             <TextInputMask
@@ -79,30 +107,18 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
           />
         </View>
       </FormContainer>
-      <InfoModal
-        visible={modalSuccess}
-        title={'Deu tudo certo!'}
-        type="success"
-        message={`Ao voltar para tela inicial as novas informações já estarão disponíveis pra você😁`}
-        close={(): void => {
-          setModalSuccess(false);
-          navigation.goBack();
-        }}
-      />
-      <InfoModal
-        visible={modalError}
-        title={'Ops!'}
-        type="error"
-        message={`Ocorreu um erro ao procurar pelo CEP: ${cep}. Verifique se digitou certo e tente novamente!`}
-        close={(): void => {
-          setModalError(false);
-        }}
+      <ModalScreen
+        visible={modalVisible}
+        data={modaldata}
       />
     </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
+  content: {
+    flex: 1,
+  },
   form: {
     flex: 1,
     justifyContent: 'center',

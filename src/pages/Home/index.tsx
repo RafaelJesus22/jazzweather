@@ -12,7 +12,7 @@ import {
 import moment from 'moment';
 import {ScreenWrapper} from '../../components/ScreenWrapper';
 import {PrimaryButton} from '../../components/PrimaryButton';
-import {InfoModal} from '../../components/InfoModal';
+import { ModalScreen } from '../../components/ModalScreen';
 import {CityCard} from '../../components/CityCard';
 import {Screen} from '../../enums/screens';
 import {CityWeather} from '../../types/ICity';
@@ -90,14 +90,18 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
   );
 
   const ModalError = (): JSX.Element => (
-    <InfoModal
+    <ModalScreen
       visible={modalError}
-      title={'Ops!'}
-      type="error"
-      message={
-        'Estamos com problemas para atualizar os dados das cidades salvas. Tente novamente mais tarde'
-      }
-      close={(): void => setModalError(false)}
+      data={{
+        type: 'error',
+        title: 'Ops!',
+        message: 'Estamos com problemas para atualizar os dados das cidades salvas. Tente novamente mais tarde',
+        onClose: (): void => setModalError(false),
+        confirmButton: {
+          onPress: (): void => setModalError(false),
+          color: colors.delete,
+        },
+      }}
     />
   );
 

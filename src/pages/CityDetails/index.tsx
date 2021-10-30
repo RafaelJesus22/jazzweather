@@ -7,28 +7,76 @@ import {useCities} from '../../providers/CitiesProvider';
 import {PrimaryButton} from '../../components/PrimaryButton';
 import {deleteCity} from '../../utils/city';
 import {colors, spacing} from '../../config/styles';
-import {InfoModal} from '../../components/InfoModal';
-import {ConfirmModal} from '../../components/ConfirmModal';
+import { ModalProps, ModalScreen } from '../../components/ModalScreen';
 
 export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
   const {selectedCity, updateCities} = useCities();
-  const [modalSuccess, setModalSuccess] = useState(false);
-  const [modalError, setModalError] = useState(false);
-  const [modalConfirm, setModalConfirm] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalData, setModalData] = useState({} as ModalProps);
 
   const handleDelete = async (): Promise<void> => {
     const {remainingCities, erro} = await deleteCity(selectedCity);
 
     if (erro) {
-      return setModalError(true);
+      setModalVisible(false);
+      setModalData(ERROR_MODAL_DATA);
+      return setModalVisible(true);
     }
 
     updateCities(remainingCities);
-    setModalConfirm(false);
-    setModalSuccess(true);
+    setModalVisible(false);
+    setModalData(SUCCESS_MODAL_DATA);
+    setModalVisible(true);
   };
 
-  const handlePress = (): void => setModalConfirm(true);
+  const handlePress = (): void => {
+    setModalData(WARNING_MODAL_DATA);
+    setModalVisible(true);
+  };
+
+  const SUCCESS_MODAL_DATA: ModalProps = {
+    title: 'Deu tudo certo',
+    message: `Ao voltar para tela inicial você não verá mais a cidade ${selectedCity.cidade}`,
+    type: 'success',
+    confirmButton: {
+      color: colors.success,
+      onPress: (): void => {
+        setModalVisible(false);
+        navigation.goBack();
+      },
+    },
+  };
+
+  const WARNING_MODAL_DATA: ModalProps = {
+    title: 'Atenção!',
+    message: `Tem certeza que deseja excluir a cidade ${selectedCity.cidade}?`,
+    type: 'warning',
+    confirmButton: {
+      title: 'Excluir',
+      color: colors.delete,
+      onPress: (): Promise<void> => {
+        return handleDelete();
+      },
+    },
+    cancelButton: {
+      color: colors.cancel,
+      onPress: (): void => {
+        setModalVisible(false);
+      },
+    },
+  };
+
+  const ERROR_MODAL_DATA: ModalProps = {
+    title: 'Ops!',
+    message: `Ocorreu um error ao excluir a cidade ${selectedCity.cidade}. Tente novamente mais tarde`,
+    type: 'error',
+    confirmButton: {
+      color: colors.delete,
+      onPress: (): void => {
+        setModalVisible(false);
+      },
+    },
+  };
 
   return (
     <ScreenWrapper>
@@ -40,29 +88,9 @@ export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
         onPress={handlePress}
         color={colors.delete}
       />
-      <InfoModal
-        visible={modalSuccess}
-        title={'Deu tudo certo!'}
-        type="success"
-        message={`Ao voltar para tela inicial você não verá mais a cidade ${selectedCity.cidade}`}
-        close={(): void => {
-          setModalSuccess(false);
-          navigation.goBack();
-        }}
-      />
-      <InfoModal
-        visible={modalError}
-        title={'Ops!'}
-        type="error"
-        message={`Ocorreu um error ao excluir a cidade ${selectedCity.cidade}. Tente novamente mais tarde`}
-        close={(): void => setModalError(false)}
-      />
-      <ConfirmModal
-        visible={modalConfirm}
-        title={'Atenção!'}
-        message={`Tem certeza que deseja excluir a cidade ${selectedCity.cidade}?`}
-        onConfirm={(): Promise<void> => handleDelete()}
-        onClose={(): void => setModalConfirm(false)}
+      <ModalScreen
+        visible={modalVisible}
+        data={modalData}
       />
     </ScreenWrapper>
   );
