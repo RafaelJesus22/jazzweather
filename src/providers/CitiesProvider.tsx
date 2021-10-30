@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, {useContext, createContext, useEffect} from 'react';
 import { StorageKey } from '../enums/storage';
 import {CityWeather} from '../types/ICity';
@@ -7,10 +8,10 @@ import { getItem, setItem } from '../utils/storage';
 interface CitiesProviderProps {
   cities: CityWeather[];
   selectedCity: CityWeather;
-  setCities: React.Dispatch<React.SetStateAction<CityWeather[]>>;
-  setSelectedCity: React.Dispatch<React.SetStateAction<CityWeather>>;
   lastUpdate: string;
-  handleSetLastUpdate: (time: string) => void;
+  updateCities: (cities: CityWeather[]) => void;
+  updateSelectedCity: (city: CityWeather) => void;
+  updateLastUpdate: (time: string) => void;
 }
 
 export const CitiesContext = createContext<CitiesProviderProps>(
@@ -18,35 +19,43 @@ export const CitiesContext = createContext<CitiesProviderProps>(
 );
 
 export const CitiesProvider: React.FC = ({children}) => {
+  const [lastUpdate, setLastUpdate] = React.useState<string>('');
   const [cities, setCities] = React.useState<CityWeather[]>([]);
   const [selectedCity, setSelectedCity] = React.useState<CityWeather>(
     {} as CityWeather,
   );
-  const [lastUpdate, setLastUpdate] = React.useState<string>('');
-
-  const handleSetLastUpdate = async (time: string): Promise<void> => {
-    setLastUpdate(time);
-    await setItem(StorageKey.lastUpdate, time);
-  };
 
   useEffect(() => {
     async function getStoragedCities(): Promise<void> {
       const storagedCities = await getCities();
       const storagedLastUpdate = await getItem(StorageKey.lastUpdate);
-      
+
       setCities(storagedCities);
       setLastUpdate(storagedLastUpdate || '');
     }
     getStoragedCities();
   }, []);
 
+  const updateLastUpdate = async (time: string): Promise<void> => {
+    setLastUpdate(time);
+    await setItem(StorageKey.lastUpdate, time);
+  };
+
+  const updateSelectedCity = (city: CityWeather):void => {
+    setSelectedCity(city);
+  };
+
+  const updateCities = (updatedCities: CityWeather[]): void => {
+    setCities(updatedCities);
+  };
+
   const value: CitiesProviderProps = {
     cities,
-    setCities,
     selectedCity,
-    setSelectedCity,
+    updateCities,
+    updateSelectedCity,
     lastUpdate,
-    handleSetLastUpdate,
+    updateLastUpdate,
   };
 
   return (
@@ -57,19 +66,19 @@ export const CitiesProvider: React.FC = ({children}) => {
 export const useCities = () => {
   const {
     cities,
-    setCities,
+    updateCities,
     selectedCity,
-    setSelectedCity,
-    handleSetLastUpdate,
+    updateSelectedCity,
+    updateLastUpdate,
     lastUpdate,
   } = useContext(CitiesContext);
-  
+
   return {
     cities,
-    setCities,
+    updateCities,
     selectedCity,
-    setSelectedCity,
+    updateSelectedCity,
     lastUpdate,
-    handleSetLastUpdate,
+    updateLastUpdate,
   };
 };

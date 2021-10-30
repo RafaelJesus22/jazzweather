@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
   View,
@@ -25,11 +26,11 @@ export const InfoModal: React.FC<ModalProps> = ({
   message,
   type,
 }) => {
-  const buttonColor = type === 'success' ? colors.succsess : colors.delete;
+  const buttonColor = type === 'success' ? colors.success : colors.delete;
   const animation =
     type === 'success'
-      ? require('../assets/sunny.json')
-      : require('../assets/storm.json');
+      ? require('../assets/animations/sunny.json')
+      : require('../assets/animations/storm.json');
 
   return (
     <Modal

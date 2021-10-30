@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {
   View,
@@ -35,7 +36,7 @@ export const ConfirmModal: React.FC<ModalProps> = ({
         <View style={styles.container}>
           <View style={styles.card}>
             <LottieView
-              source={require('../assets/warn.json')}
+              source={require('../assets/animations/warn.json')}
               autoPlay
               loop
               style={{height: 150}}

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -5,13 +6,12 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {Home} from './pages/Home';
 import {AddCity} from './pages/AddCity';
 import {Screen} from './enums/screens';
-import {CitiesProvider, useCities} from './providers/CitiesProvider';
+import {CitiesProvider} from './providers/CitiesProvider';
 import {CityDetails} from './pages/CityDetails';
 
 const AppStack = createStackNavigator();
 
 export const Routes = () => {
-  const {selectedCity} = useCities();
   return (
     <CitiesProvider>
       <NavigationContainer>

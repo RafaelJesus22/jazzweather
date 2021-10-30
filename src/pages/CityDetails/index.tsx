@@ -11,7 +11,7 @@ import {InfoModal} from '../../components/InfoModal';
 import {ConfirmModal} from '../../components/ConfirmModal';
 
 export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
-  const {selectedCity, setCities} = useCities();
+  const {selectedCity, updateCities} = useCities();
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
   const [modalConfirm, setModalConfirm] = useState(false);
@@ -23,7 +23,7 @@ export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
       return setModalError(true);
     }
 
-    setCities(remainingCities);
+    updateCities(remainingCities);
     setModalConfirm(false);
     setModalSuccess(true);
   };

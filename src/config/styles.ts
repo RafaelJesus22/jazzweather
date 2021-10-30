@@ -1,16 +1,17 @@
+/* eslint-disable prettier/prettier */
 export const spacing = {
   default: 16,
   large: 24,
   small: 8,
   medium: 12,
-}
+};
 
 export const colors = {
   primary: '#B848D6',
   primaryDisabled: '#B848D677',
   background: '#fff',
   white: '#fff',
-  succsess: '#0acf97',
+  success: '#0acf97',
   delete: '#F27688',
   cancel: '#ccc',
 
@@ -19,7 +20,7 @@ export const colors = {
   textLight: '#aaa',
   textLighter: '#ccc',
   textDark: '#333',
-}
+};
 
 export const fontSize = {
   default: 16,
@@ -28,16 +29,16 @@ export const fontSize = {
   note: 12,
   button: 18,
   extraLarge: 32,
-}
+};
 
 export const shadow = {
   shadowColor: '#999',
-    shadowOffset: {
-      width: 2,
-      height: 3,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
+  shadowOffset: {
+    width: 2,
+    height: 3,
+  },
+  shadowOpacity: 0.22,
+  shadowRadius: 2.22,
 
-    elevation: 5,
-}
+  elevation: 5,
+};

@@ -25,8 +25,13 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
   const {width} = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const {cities, setSelectedCity, lastUpdate, setCities, handleSetLastUpdate} =
-    useCities();
+  const {
+    cities,
+    updateCities,
+    lastUpdate,
+    updateSelectedCity,
+    updateLastUpdate,
+  } = useCities();
 
   useEffect(() => {
     async function loadCities(): Promise<void> {
@@ -36,7 +41,7 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
   }, []);
 
   const handleSelectCity = (city: CityWeather): void => {
-    setSelectedCity(city);
+    updateSelectedCity(city);
     navigation.navigate(Screen.CITY_DETAILS, {cidade: city.cidade});
   };
 
@@ -44,8 +49,8 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
     try {
       setLoading(true);
       const updatedCities = await updateAllCities();
-      setCities(updatedCities);
-      handleSetLastUpdate(moment().format('DD/MM/YYYY hh:mm'));
+      updateCities(updatedCities);
+      updateLastUpdate(moment().format('DD/MM/YYYY hh:mm'));
       setLoading(false);
     } catch (error) {
       setLoading(false);
@@ -66,7 +71,10 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
           <CityCard city={item} onPress={() => handleSelectCity(item)} />
         )}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={handleUpdateAllCities} />
+          <RefreshControl
+            refreshing={loading}
+            onRefresh={handleUpdateAllCities}
+          />
         }
       />
     </View>

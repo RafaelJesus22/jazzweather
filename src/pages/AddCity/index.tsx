@@ -20,7 +20,7 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [modalSuccess, setModalSuccess] = useState(false);
   const [modalError, setModalError] = useState(false);
-  const {setCities, handleSetLastUpdate} = useContext(CitiesContext);
+  const {setCities, updateLastUpdate} = useContext(CitiesContext);
 
   const handleSubmit = async (): Promise<void> => {
     setLoading(true);
@@ -38,7 +38,7 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
 
     if (success) {
       setModalSuccess(true);
-      handleSetLastUpdate(cityWeather?.lastUpdate || '');
+      updateLastUpdate(cityWeather?.lastUpdate || '');
       const cities = await getCities();
       setCities(cities);
 
