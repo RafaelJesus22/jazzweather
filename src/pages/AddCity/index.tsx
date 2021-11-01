@@ -59,7 +59,7 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
 
   const SUCCESS_MODAL_DATA: ModalProps = {
     title: 'Deu tudo certo',
-    message: 'Ao voltar para tela inicial as novas informações já estarão disponíveis pra você😁',
+    message: 'Ao voltar para tela inicial as novas informações já estarão disponíveis pra você 😁',
     type: 'success',
     confirmButton: {
       color: colors.success,

@@ -1,4 +1,5 @@
 # jazzWeather - Rafael Jesus
+![App](https://github.com/RafaelJesus22/jassweather/src/assets/images/app.png)
 
 ## Requisitos
   - [NodeJs](https://nodejs.org/en/) v12.18.4+
