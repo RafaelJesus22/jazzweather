@@ -1,10 +1,13 @@
 import React from 'react';
-
-import { Routes } from './src/routes';
+import {StatusBar} from 'react-native';
+import {Routes} from './src/routes';
 
 const App = () => {
   return (
-    <Routes />
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <Routes />
+    </>
   );
 };
 
