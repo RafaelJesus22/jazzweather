@@ -12,9 +12,9 @@ export const getCityWeather = (cityTarget: CityCep | CityWeather): Promise<CityW
   const {uf, cidade, cep, logradouro} = cityTarget;
   const url = `/weather?key=${WEATHER_API_KEY}&city_name=${cidade},${uf}`;
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      const response: any = await api.get(url);
+  return new Promise((resolve, reject) => {
+  api.get(url)
+    .then(response => {
       const {temp, date, time} = response.data.results;
 
       const cityWeather: CityWeather = {
@@ -27,8 +27,6 @@ export const getCityWeather = (cityTarget: CityCep | CityWeather): Promise<CityW
         cep,
       };
       resolve(cityWeather);
-    } catch (error) {
-      reject(error);
-    }
-  });
-};
+    })
+    .catch(reject)
+});
