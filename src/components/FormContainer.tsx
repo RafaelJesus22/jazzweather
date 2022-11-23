@@ -7,7 +7,11 @@ import {
   Platform,
 } from 'react-native';
 
-export const FormContainer: React.FC = ({children}) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+export const FormContainer: React.FC<Props> = ({children}) => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
