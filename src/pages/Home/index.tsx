@@ -7,9 +7,9 @@ import {
   StyleSheet,
   FlatList,
   RefreshControl,
-  Dimensions,
 } from 'react-native';
 import moment from 'moment';
+
 import { ScreenWrapper } from '../../components/ScreenWrapper';
 import { PrimaryButton } from '../../components/PrimaryButton';
 import { ModalScreen } from '../../components/ModalScreen';
@@ -19,10 +19,8 @@ import { CityWeather } from '../../types/ICity';
 import { useCities } from '../../providers/CitiesProvider';
 import { colors, fontSize, spacing } from '../../config/styles';
 import { updateAllCities } from '../../utils/city';
-import NoCities from '../../assets/no_cities.svg';
 
 export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { width } = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
   const {
@@ -82,16 +80,15 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
     </View>
   );
 
-  // const NoCitiesContent: React.FC = () => {
-  //   return (
-  //     <View style={styles.noCities}>
-  //       <NoCities width={width * 0.8} height={width / 2} fill={colors.primary} />
-  //       <Text style={styles.noCitiesText}>
-  //         Adicione uma cidade para saber como está o clima 😉
-  //       </Text>
-  //     </View>
-  //   );
-  // };
+  const NoCitiesContent: React.FC = () => {
+    return (
+      <View style={styles.noCities}>
+        <Text style={styles.noCitiesText}>
+          Adicione uma cidade para saber como está o clima 😉
+        </Text>
+      </View>
+    );
+  };
 
   const ModalError: React.FC = () => (
     <ModalScreen
@@ -111,10 +108,8 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
 
   return (
     <ScreenWrapper>
-      <>
         <View style={styles.content}>
-          {/* {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />} */}
-          <CitiesContent />
+          {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />}
         </View>
         <PrimaryButton
           title="Adicionar Cidade"
@@ -123,7 +118,6 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
           }}
         />
         <ModalError />
-      </>
     </ScreenWrapper>
   );
 };

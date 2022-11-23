@@ -3,12 +3,12 @@ import {StatusBar} from 'react-native';
 import {Routes} from './routes';
 
 const App = () => {
-    return (
-        <>
-            <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-            <Routes />
-        </>
-    );
+  return (
+    <>
+      <StatusBar barStyle="dark-content" backgroundColor="#fff" />
+      <Routes />
+    </>
+  );
 };
 
 export default App;
