@@ -1,5 +1,13 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Text, StyleSheet, TouchableOpacity, TouchableOpacityProps} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  TouchableOpacityProps,
+} from 'react-native';
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 
 import {colors, fontSize, shadow, spacing} from '../config/styles';
 import {CityWeather} from '../types/ICity';
@@ -8,7 +16,7 @@ interface CityCardProps extends TouchableOpacityProps {
   city: CityWeather;
 }
 
-export const CityCard: React.FC<CityCardProps> = ({ city, onPress, ...rest}) => {
+export const CityCard: React.FC<CityCardProps> = ({city, onPress, ...rest}) => {
   const {cidade, temperatura, logradouro} = city;
 
   return (
@@ -16,14 +24,17 @@ export const CityCard: React.FC<CityCardProps> = ({ city, onPress, ...rest}) => 
       style={styles.container}
       activeOpacity={0.8}
       onPress={onPress}
-      {...rest}
-    >
+      {...rest}>
       <Text style={styles.temperature}>{temperatura}°</Text>
+
       <View style={styles.cityAdress}>
         <Text style={styles.cityName}>{cidade}</Text>
         {!!logradouro && <Text style={styles.cityState}>{logradouro}</Text>}
       </View>
-      <Text style={{...styles.cityState, fontSize: 18, fontWeight: 'bold'}}>{'>'}</Text>
+
+      <View>
+        <FontAwesome5 name="chevron-right" color={colors.text} size={16} />
+      </View>
     </TouchableOpacity>
   );
 };
@@ -59,5 +70,5 @@ const styles = StyleSheet.create({
   cityState: {
     fontSize: fontSize.note,
     color: colors.textLight,
-  }, 
+  },
 });
