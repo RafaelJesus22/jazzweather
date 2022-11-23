@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -10,19 +10,19 @@ import {
   Dimensions,
 } from 'react-native';
 import moment from 'moment';
-import {ScreenWrapper} from '../../components/ScreenWrapper';
-import {PrimaryButton} from '../../components/PrimaryButton';
+import { ScreenWrapper } from '../../components/ScreenWrapper';
+import { PrimaryButton } from '../../components/PrimaryButton';
 import { ModalScreen } from '../../components/ModalScreen';
-import {CityCard} from '../../components/CityCard';
-import {Screen} from '../../enums/screens';
-import {CityWeather} from '../../types/ICity';
-import {useCities} from '../../providers/CitiesProvider';
-import {colors, fontSize, spacing} from '../../config/styles';
-import {updateAllCities} from '../../utils/city';
+import { CityCard } from '../../components/CityCard';
+import { Screen } from '../../enums/screens';
+import { CityWeather } from '../../types/ICity';
+import { useCities } from '../../providers/CitiesProvider';
+import { colors, fontSize, spacing } from '../../config/styles';
+import { updateAllCities } from '../../utils/city';
 import NoCities from '../../assets/no_cities.svg';
 
-export const Home: React.FC<{navigation: any}> = ({navigation}) => {
-  const {width} = Dimensions.get('window');
+export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
+  const { width } = Dimensions.get('window');
   const [loading, setLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
   const {
@@ -42,7 +42,7 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
 
   const handleSelectCity = (city: CityWeather): void => {
     updateSelectedCity(city);
-    navigation.navigate(Screen.CITY_DETAILS, {cidade: city.cidade});
+    navigation.navigate(Screen.CITY_DETAILS, { cidade: city.cidade });
   };
 
   const handleUpdateAllCities = async (): Promise<void> => {
@@ -58,16 +58,18 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
     }
   };
 
-  const CitiesContent = (): JSX.Element => (
+  const CitiesContent: React.FC = () => (
     <View>
       <Text style={styles.details}>
-        {loading ? 'Atualizando' : `Ultima atualização: ${lastUpdate}`}
+        {/* {loading ? 'Atualizando' : `Ultima atualização: ${lastUpdate}`} */}
+        {loading && 'Atualizando'}
+        {!loading && 'Ultima atualização: ' + lastUpdate}
       </Text>
       <FlatList
         contentContainerStyle={styles.list}
         data={cities}
         keyExtractor={(item: CityWeather) => item.id}
-        renderItem={({item}) => (
+        renderItem={({ item }) => (
           <CityCard city={item} onPress={() => handleSelectCity(item)} />
         )}
         refreshControl={
@@ -80,16 +82,18 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
     </View>
   );
 
-  const NoCitiesContent = (): JSX.Element => (
-    <View style={styles.noCities}>
-      <NoCities width={width * 0.8} height={width / 2} fill={colors.primary} />
-      <Text style={styles.noCitiesText}>
-        Adicione uma cidade para saber como está o clima 😉
-      </Text>
-    </View>
-  );
+  // const NoCitiesContent: React.FC = () => {
+  //   return (
+  //     <View style={styles.noCities}>
+  //       <NoCities width={width * 0.8} height={width / 2} fill={colors.primary} />
+  //       <Text style={styles.noCitiesText}>
+  //         Adicione uma cidade para saber como está o clima 😉
+  //       </Text>
+  //     </View>
+  //   );
+  // };
 
-  const ModalError = (): JSX.Element => (
+  const ModalError: React.FC = () => (
     <ModalScreen
       visible={modalError}
       data={{
@@ -107,22 +111,25 @@ export const Home: React.FC<{navigation: any}> = ({navigation}) => {
 
   return (
     <ScreenWrapper>
-      <View style={styles.content}>
-        {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />}
-      </View>
-      <PrimaryButton
-        title="Adicionar Cidade"
-        onPress={(): void => {
-          navigation.navigate(Screen.ADD_CITY);
-        }}
-      />
-      <ModalError />
+      <>
+        <View style={styles.content}>
+          {/* {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />} */}
+          <CitiesContent />
+        </View>
+        <PrimaryButton
+          title="Adicionar Cidade"
+          onPress={(): void => {
+            navigation.navigate(Screen.ADD_CITY);
+          }}
+        />
+        <ModalError />
+      </>
     </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  content: {flex: 1, marginBottom: 32},
+  content: { flex: 1, marginBottom: 32 },
   details: {
     fontSize: fontSize.text,
     color: colors.text,

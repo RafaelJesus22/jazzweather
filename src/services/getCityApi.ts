@@ -10,7 +10,7 @@ export const api = axios.create({
 export const getCityByCEP = (CEP: string): Promise<CityCep> => {
   return new Promise((resolve, reject) => {
     api.get(`/${CEP}/json`)
-      .then({ data } => {
+      .then(({ data }) => {
         if (data.erro) {
           reject('CEP não encontrado');
         }
