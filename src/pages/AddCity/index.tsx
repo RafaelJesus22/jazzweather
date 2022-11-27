@@ -1,11 +1,5 @@
-/* eslint-disable prettier/prettier */
 import React, {useContext, useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  Text,
-  Keyboard,
-} from 'react-native';
+import {View, StyleSheet, Text, Keyboard} from 'react-native';
 import {TextInputMask} from 'react-native-masked-text';
 
 import {ScreenWrapper} from '../../components/ScreenWrapper';
@@ -59,7 +53,8 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
 
   const SUCCESS_MODAL_DATA: ModalProps = {
     title: 'Deu tudo certo',
-    message: 'Ao voltar para tela inicial as novas informações já estarão disponíveis pra você 😁',
+    message:
+      'Ao voltar para tela inicial as novas informações já estarão disponíveis pra você 😁',
     type: 'success',
     confirmButton: {
       color: colors.success,
@@ -107,10 +102,7 @@ export const AddCity: React.FC<{navigation: any}> = ({navigation}) => {
           />
         </View>
       </FormContainer>
-      <ModalScreen
-        visible={modalVisible}
-        data={modaldata}
-      />
+      <ModalScreen visible={modalVisible} data={modaldata} />
     </ScreenWrapper>
   );
 };

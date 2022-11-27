@@ -1,9 +1,12 @@
-/* eslint-disable prettier/prettier */
 import React, {useContext, createContext, useEffect, useState} from 'react';
 import {StorageKey} from '../enums/storage';
 import {CityWeather} from '../types/ICity';
 import {getCities} from '../utils/city';
 import {getItem, setItem} from '../utils/storage';
+
+interface Props {
+  children: React.ReactNode;
+}
 
 interface CitiesProviderProps {
   cities: CityWeather[];
@@ -18,10 +21,12 @@ export const CitiesContext = createContext<CitiesProviderProps>(
   {} as CitiesProviderProps,
 );
 
-export const CitiesProvider: React.FC = ({children}) => {
+export const CitiesProvider: React.FC<Props> = ({children}) => {
   const [lastUpdate, setLastUpdate] = useState<string>('');
   const [cities, setCities] = useState<CityWeather[]>([]);
-  const [selectedCity, setSelectedCity] = useState<CityWeather>({} as CityWeather);
+  const [selectedCity, setSelectedCity] = useState<CityWeather>(
+    {} as CityWeather,
+  );
 
   useEffect(() => {
     async function getStoragedCities(): Promise<void> {

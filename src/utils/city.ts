@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {Alert} from 'react-native';
 import {StorageKey} from '../enums/storage';
 import {getCityByCEP} from '../services/getCityApi';

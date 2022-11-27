@@ -1,26 +1,19 @@
-/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  RefreshControl,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {View, Text, StyleSheet, FlatList, RefreshControl} from 'react-native';
 import moment from 'moment';
 
-import { ScreenWrapper } from '../../components/ScreenWrapper';
-import { PrimaryButton } from '../../components/PrimaryButton';
-import { ModalScreen } from '../../components/ModalScreen';
-import { CityCard } from '../../components/CityCard';
-import { Screen } from '../../enums/screens';
-import { CityWeather } from '../../types/ICity';
-import { useCities } from '../../providers/CitiesProvider';
-import { colors, fontSize, spacing } from '../../config/styles';
-import { updateAllCities } from '../../utils/city';
+import {ScreenWrapper} from '../../components/ScreenWrapper';
+import {PrimaryButton} from '../../components/PrimaryButton';
+import {ModalScreen} from '../../components/ModalScreen';
+import {CityCard} from '../../components/CityCard';
+import {Screen} from '../../enums/screens';
+import {CityWeather} from '../../types/ICity';
+import {useCities} from '../../providers/CitiesProvider';
+import {colors, fontSize, spacing} from '../../config/styles';
+import {updateAllCities} from '../../utils/city';
 
-export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
+export const Home: React.FC<{navigation: any}> = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [modalError, setModalError] = useState(false);
   const {
@@ -40,7 +33,7 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
 
   const handleSelectCity = (city: CityWeather): void => {
     updateSelectedCity(city);
-    navigation.navigate(Screen.CITY_DETAILS, { cidade: city.cidade });
+    navigation.navigate(Screen.CITY_DETAILS, {cidade: city.cidade});
   };
 
   const handleUpdateAllCities = async (): Promise<void> => {
@@ -67,7 +60,7 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
         contentContainerStyle={styles.list}
         data={cities}
         keyExtractor={(item: CityWeather) => item.id}
-        renderItem={({ item }) => (
+        renderItem={({item}) => (
           <CityCard city={item} onPress={() => handleSelectCity(item)} />
         )}
         refreshControl={
@@ -96,7 +89,8 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
       data={{
         type: 'error',
         title: 'Ops!',
-        message: 'Estamos com problemas para atualizar os dados das cidades salvas. Tente novamente mais tarde',
+        message:
+          'Estamos com problemas para atualizar os dados das cidades salvas. Tente novamente mais tarde',
         onClose: (): void => setModalError(false),
         confirmButton: {
           onPress: (): void => setModalError(false),
@@ -108,22 +102,25 @@ export const Home: React.FC<{ navigation: any }> = ({ navigation }) => {
 
   return (
     <ScreenWrapper>
-        <View style={styles.content}>
-          {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />}
-        </View>
-        <PrimaryButton
-          title="Adicionar Cidade"
-          onPress={(): void => {
-            navigation.navigate(Screen.ADD_CITY);
-          }}
-        />
-        <ModalError />
+      <View style={styles.content}>
+        {cities.length > 0 ? <CitiesContent /> : <NoCitiesContent />}
+      </View>
+      <PrimaryButton
+        title="Adicionar Cidade"
+        onPress={(): void => {
+          navigation.navigate(Screen.ADD_CITY);
+        }}
+      />
+      <ModalError />
     </ScreenWrapper>
   );
 };
 
 const styles = StyleSheet.create({
-  content: { flex: 1, marginBottom: 32 },
+  content: {
+    flex: 1,
+    marginBottom: 32,
+  },
   details: {
     fontSize: fontSize.text,
     color: colors.text,

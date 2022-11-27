@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {ScreenWrapper} from '../../components/ScreenWrapper';
@@ -7,7 +6,7 @@ import {useCities} from '../../providers/CitiesProvider';
 import {PrimaryButton} from '../../components/PrimaryButton';
 import {deleteCity} from '../../utils/city';
 import {colors, spacing} from '../../config/styles';
-import { ModalProps, ModalScreen } from '../../components/ModalScreen';
+import {ModalProps, ModalScreen} from '../../components/ModalScreen';
 
 export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
   const {selectedCity, updateCities} = useCities();
@@ -88,10 +87,7 @@ export const CityDetails: React.FC<{navigation: any}> = ({navigation}) => {
         onPress={handlePress}
         color={colors.delete}
       />
-      <ModalScreen
-        visible={modalVisible}
-        data={modalData}
-      />
+      <ModalScreen visible={modalVisible} data={modalData} />
     </ScreenWrapper>
   );
 };

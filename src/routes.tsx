@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -21,7 +20,7 @@ export const Routes = () => {
           <AppStack.Screen
             name={Screen.CITY_DETAILS}
             component={CityDetails}
-            options={({ route }) => ({ title: route.params.cidade })}
+            options={({route}) => ({title: route?.params?.cidade})}
           />
         </AppStack.Navigator>
       </NavigationContainer>

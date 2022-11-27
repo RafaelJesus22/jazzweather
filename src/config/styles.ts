@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export const spacing = {
   default: 16,
   large: 24,

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import axios from 'axios';
 
 import {CityCep} from '../types/ICity';
@@ -9,8 +8,9 @@ export const api = axios.create({
 
 export const getCityByCEP = (CEP: string): Promise<CityCep> => {
   return new Promise((resolve, reject) => {
-    api.get(`/${CEP}/json`)
-      .then(({ data }) => {
+    api
+      .get(`/${CEP}/json`)
+      .then(({data}) => {
         if (data.erro) {
           reject('CEP não encontrado');
         }
@@ -26,7 +26,7 @@ export const getCityByCEP = (CEP: string): Promise<CityCep> => {
           gia: data.gia,
           ddd: data.ddd,
           siafi: data.siafi,
-        }
+        };
 
         resolve(cityCep);
       })

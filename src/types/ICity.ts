@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 export interface CityCep {
   cep: string;
   logradouro: string;
